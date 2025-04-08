@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#689f38">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Погода</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab-button active" id="homeTab">
+            <i class="fas fa-home"></i> Головна
+        </button>
+        <button class="tab-button" id="continentsTab">
+            <i class="fas fa-globe"></i> Континенти
+        </button>
+        <button class="tab-button" id="mapTab">
+            <i class="fas fa-map"></i> Мапа
+        </button>
+    </div>
+    
+    <button id="openSettingsBtn" class="settings-button">
+        <i class="fas fa-cog"></i>
+    </button>
+    
+    <button id="installBtn" class="install-button" style="display: none;">
+        <i class="fas fa-download"></i> Встановити додаток
+    </button>
+    
+    <div class="container">
+        <div class="tab-content active" id="homeContent">
+            <div class="weather-search">
+                <h2><i class="fas fa-cloud-sun"></i> Погода в вашому місті</h2>
+                <div class="search-input-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="cityInput" placeholder="Введіть місто">
+                </div>
+                <button id="getWeatherBtn">
+                    <i class="fas fa-cloud-sun-rain"></i> Дізнатися погоду
+                </button>
+                <button id="getLocationBtn">
+                    <i class="fas fa-location-dot"></i> Моя геолокація
+                </button>
+                <div id="weatherResult"></div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="continentsContent">
+            <div class="weather-grid">
+                <div class="continent-box" id="eu">
+                    <h3>Європа</h3>
+                    <div class="city-info" data-city="London"></div>
+                    <div class="city-info" data-city="Berlin"></div>
+                </div>
+                <div class="continent-box" id="as">
+                    <h3>Азія</h3>
+                    <div class="city-info" data-city="Tokyo"></div>
+                    <div class="city-info" data-city="Delhi"></div>
+                </div>
+                <div class="continent-box" id="na">
+                    <h3>Північна Америка</h3>
+                    <div class="city-info" data-city="New York"></div>
+                    <div class="city-info" data-city="Los Angeles"></div>
+                </div>
+                <div class="continent-box" id="af">
+                    <h3>Африка</h3>
+                    <div class="city-info" data-city="Cairo"></div>
+                    <div class="city-info" data-city="Lagos"></div>
+                </div>
+                <div class="continent-box" id="oc">
+                    <h3>Океанія</h3>
+                    <div class="city-info" data-city="Sydney"></div>
+                    <div class="city-info" data-city="Melbourne"></div>
+                </div>
+                <div class="continent-box" id="sa">
+                    <h3>Південна Америка</h3>
+                    <div class="city-info" data-city="São Paulo"></div>
+                    <div class="city-info" data-city="Buenos Aires"></div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="mapContent">
+            <div id="map"></div>
+            <div id="mapWeatherResult" class="weather-result-box"></div>
+        </div>
+    </div>
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSettingsBtn">&times;</span>
+            <h2><i class="fas fa-sliders"></i> Налаштування</h2>
+            <button id="lightThemeBtn">
+                <i class="fas fa-sun"></i> Світла тема
+            </button>
+            <button id="darkThemeBtn">
+                <i class="fas fa-moon"></i> Темна тема
+            </button>
+            <button id="pinkThemeBtn">
+                <i class="fas fa-heart"></i> Рожева тема
+            </button>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
