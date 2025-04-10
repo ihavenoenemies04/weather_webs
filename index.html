@@ -16,26 +16,38 @@
 </head>
 <body>
     <div class="tabs">
-        <button class="tab-button active touch-friendly" id="homeTab">
+        <button class="tab-button active" id="homeTab">
             <i class="fas fa-home"></i> Головна
         </button>
-        <button class="tab-button touch-friendly" id="continentsTab">
+        <button class="tab-button" id="continentsTab">
             <i class="fas fa-globe"></i> Континенти
         </button>
-        <button class="tab-button touch-friendly" id="mapTab">
+        <button class="tab-button" id="mapTab">
             <i class="fas fa-map"></i> Мапа
         </button>
+        <button class="tab-button" id="favoritesTab">
+            <i class="fas fa-star"></i> Обране
+        </button>
+        
     </div>
     
-    <button id="openSettingsBtn" class="settings-button touch-friendly">
+    <button id="openSettingsBtn" class="settings-button">
         <i class="fas fa-cog"></i>
     </button>
     
-    <button id="installBtn" class="install-button touch-friendly" style="display: none;">
+    <button id="installBtn" class="install-button" style="display: none;">
         <i class="fas fa-download"></i> Встановити додаток
     </button>
     
     <div class="container">
+        <div class="tab-content" id="favoritesContent">
+            <div class="favorites-list">
+                <button id="addCurrentToFavorites" class="favorite-button">
+                    <i class="fas fa-plus"></i> Додати поточне місце
+                </button>
+                <div id="favoritesContainer"></div>
+            </div>
+        </div>
         <div class="tab-content active" id="homeContent">
             <div class="weather-search">
                 <h2><i class="fas fa-cloud-sun"></i> Погода в вашому місті</h2>
@@ -43,10 +55,10 @@
                     <i class="fas fa-search"></i>
                     <input type="text" id="cityInput" placeholder="Введіть місто">
                 </div>
-                <button id="getWeatherBtn" class="touch-friendly">
+                <button id="getWeatherBtn">
                     <i class="fas fa-cloud-sun-rain"></i> Дізнатися погоду
                 </button>
-                <button id="getLocationBtn" class="touch-friendly">
+                <button id="getLocationBtn">
                     <i class="fas fa-location-dot"></i> Моя геолокація
                 </button>
                 <div id="weatherResult"></div>
@@ -96,29 +108,18 @@
         <div class="modal-content">
             <span class="close" id="closeSettingsBtn">&times;</span>
             <h2><i class="fas fa-sliders"></i> Налаштування</h2>
-            <button id="lightThemeBtn" class="touch-friendly">
+            <button id="lightThemeBtn">
                 <i class="fas fa-sun"></i> Світла тема
             </button>
-            <button id="darkThemeBtn" class="touch-friendly">
+            <button id="darkThemeBtn">
                 <i class="fas fa-moon"></i> Темна тема
             </button>
-            <button id="pinkThemeBtn" class="touch-friendly">
+            <button id="pinkThemeBtn">
                 <i class="fas fa-heart"></i> Рожева тема
             </button>
         </div>
     </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-    // For touch devices
-    L.Map.addInitHook(function() {
-        if (L.Browser.touch && !L.Browser.pointer) {
-            this.tap.disable();
-        }
-    });
-</script>
-<script src="script.js"></script>
 </body>
 </html>

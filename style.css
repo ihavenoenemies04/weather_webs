@@ -1,10 +1,18 @@
+/* ==================== */
+/* BASE STYLES */
+/* ==================== */
 :root {
     --light-theme-bg: url('light_bg.jpg');
-    --dark-theme-bg: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('dark_bg.jpg');
+    --dark-theme-bg: url('dark_bg.jpg');
     --pink-theme-bg: url('pink_bg.jpg');
     --primary-color: #689f38;
     --primary-hover: #558b2f;
     --primary-light: #dcedc8;
+    --dark-theme-btn: #616161;
+    --dark-theme-btn-hover: #757575;
+    --dark-theme-btn-active: #424242;
+    --dark-theme-bg: url('dark_bg.jpg'), linear-gradient(to bottom, #121212, #000000);
+    --dark-overlay: rgba(0, 0, 0, 0.7);
     --secondary-color: #fbc02d;
     --secondary-hover: #f9a825;
     --secondary-light: #fff9c4;
@@ -50,13 +58,23 @@ body::after {
     z-index: -1;
     pointer-events: none;
 }
+body.dark-theme {
+    background-image: var(--dark-theme-bg);
+    color: #e0e0e0;
+}
 
+body.dark-theme::after {
+    background: var(--dark-overlay);
+}
+
+/* ==================== */
 /* INSTALL BUTTON */
+/* ==================== */
 .install-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    padding: 14px 20px;
+    padding: 12px 20px;
     border-radius: 25px;
     background-color: var(--primary-color);
     color: white;
@@ -70,8 +88,6 @@ body::after {
     font-size: 16px;
     transition: all 0.3s ease;
     opacity: 0.9;
-    min-width: 44px;
-    min-height: 44px;
 }
 
 .install-button:hover {
@@ -81,20 +97,100 @@ body::after {
     opacity: 1;
 }
 
+body.dark-theme .install-button {
+    background-color: var(--secondary-color);
+    color: #333;
+}
+
+body.pink-theme .install-button {
+    background-color: var(--secondary-hover);
+    color: #5a3e4b;
+}
+
+/* ==================== */
+/* DARK THEME BUTTONS */
+/* ==================== */
+body.dark-theme button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+    border-color: var(--dark-theme-btn-hover) !important;
+}
+
+body.dark-theme button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+    box-shadow: 0 0 0 3px var(--dark-theme-btn-active) !important;
+}
+
+body.dark-theme .tab-button {
+    background-color: rgba(97, 97, 97, 0.8) !important;
+    color: white !important;
+}
+
+body.dark-theme .tab-button.active {
+    background-color: var(--dark-theme-btn) !important;
+}
+
+body.dark-theme .tab-button:hover {
+    box-shadow: 0 0 0 3px var(--dark-theme-btn-hover) !important;
+}
+
+body.dark-theme .settings-button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+}
+
+body.dark-theme .settings-button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+}
+
+body.dark-theme .install-button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+}
+
+body.dark-theme .install-button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+}
+
+/* Weather search buttons in dark theme */
+body.dark-theme .weather-search button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+}
+
+body.dark-theme .weather-search button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+}
+
+/* Modal buttons in dark theme */
+body.dark-theme .modal-content button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+}
+
+body.dark-theme .modal-content button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+}
+/* ==================== */
 /* TOUCH FEEDBACK */
+/* ==================== */
 button.active-touch, .tab-button.active-touch {
     transform: scale(0.96);
     opacity: 0.9;
     transition: transform 0.1s ease;
 }
 
+/* ==================== */
 /* INPUT FIELDS */
+/* ==================== */
 input, select, textarea {
     font-size: 16px !important;
     min-height: 44px;
 }
 
+/* ==================== */
 /* TABS */
+/* ==================== */
 .tabs {
     display: flex;
     position: fixed;
@@ -102,11 +198,11 @@ input, select, textarea {
     left: 20px;
     z-index: 1000;
     margin-bottom: 0;
-    gap: 8px;
+    gap: 5px;
 }
 
 .tab-button {
-    padding: 12px 16px;
+    padding: 8px 16px;
     background-color: rgba(224, 224, 224, 0.8);
     border: none;
     cursor: pointer;
@@ -114,7 +210,6 @@ input, select, textarea {
     border-radius: 4px;
     transition: all 0.3s ease;
     min-height: 44px;
-    min-width: 44px;
 }
 
 .tab-button.active {
@@ -126,13 +221,132 @@ input, select, textarea {
     box-shadow: 0 0 0 3px var(--primary-hover);
 }
 
+body.dark-theme .tab-button {
+    background-color: rgba(66, 66, 66, 0.8);
+    color: white;
+}
+
+body.dark-theme .tab-button.active {
+    background-color: var(--primary-color);
+}
+
+body.dark-theme .tab-button:hover {
+    box-shadow: 0 0 0 3px var(--primary-hover);
+}
+
+body.pink-theme .tab-button {
+    background-color: rgba(255, 182, 193, 0.8);
+}
+
+body.pink-theme .tab-button.active {
+    background-color: var(--secondary-color);
+    color: #5a3e4b;
+}
+
+body.pink-theme .tab-button:hover {
+    box-shadow: 0 0 0 3px var(--secondary-hover);
+}
+.favorites-list {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.favorite-button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: var(--secondary-color);
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.favorite-button:hover {
+    background-color: var(--secondary-hover);
+}
+
+.favorite-item {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+body.dark-theme .favorite-item {
+    background-color: rgba(66, 66, 66, 0.7);
+}
+
+body.pink-theme .favorite-item {
+    background-color: rgba(255, 228, 225, 0.8);
+}
+
+.favorite-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.favorite-info h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.remove-favorite {
+    background: none;
+    border: none;
+    color: #ff5252;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.no-favorites {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+    padding: 20px;
+}
+
+.favorite-weather {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+}
+
+body.dark-theme .favorite-weather {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+body.pink-theme .favorite-weather {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .favorites-list {
+        padding: 15px;
+    }
+    
+    .favorite-item {
+        padding: 12px;
+    }
+}
+
+/* ==================== */
 /* SETTINGS BUTTON */
+/* ==================== */
 .settings-button {
     position: fixed;
     top: 20px;
     right: 20px;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     color: white;
     border: none;
@@ -141,7 +355,7 @@ input, select, textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    font-size: 18px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     background-color: var(--primary-color);
@@ -152,14 +366,30 @@ input, select, textarea {
     background-color: var(--primary-hover);
 }
 
+body.dark-theme .settings-button:hover {
+    background-color: var(--primary-hover);
+    color: #9da065;
+}
+
+body.pink-theme .settings-button {
+    background-color: var(--secondary-color);
+    color: #5a3e4b;
+}
+
+body.pink-theme .settings-button:hover {
+    background-color: var(--secondary-hover);
+}
+
+/* ==================== */
 /* CONTAINER */
+/* ==================== */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 90%;
     max-width: 1400px;
-    padding: 80px 20px 20px;
+    padding: 60px 20px 20px;
     margin-top: 20px;
     position: relative;
 }
@@ -174,7 +404,9 @@ input, select, textarea {
     justify-content: center;
 }
 
+/* ==================== */
 /* WEATHER SEARCH */
+/* ==================== */
 .weather-search {
     width: 100%;
     max-width: 500px;
@@ -186,14 +418,25 @@ input, select, textarea {
     border: 1px solid #ccc;
 }
 
+body.dark-theme .weather-search,
+body.dark-theme .weather-result-box {
+    background-color: rgba(66, 66, 66, 0.25);
+    color: white;
+}
+
+body.pink-theme .weather-search,
+body.pink-theme .weather-result-box {
+    background-color: rgba(255, 228, 225, 0.7);
+    border-color: #ffb6c1;
+}
+
 input, button {
-    padding: 12px;
-    margin: 8px 0;
+    padding: 10px;
+    margin: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 100%;
+    width: 90%;
     transition: all 0.3s ease;
-    min-height: 44px;
 }
 
 button {
@@ -208,301 +451,10 @@ button:hover {
     box-shadow: 0 0 0 3px var(--primary-hover);
 }
 
-#weatherResult {
-    margin-top: 20px;
-    font-size: 1.2em;
-    text-align: left;
-}
-
-/* CONTINENT CONTAINERS */
-.weather-grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    padding: 15px;
-}
-
-.continent-box {
-    padding: 20px;
-    border-radius: 15px;
-    font-size: 0.95em;
-    text-align: left;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-    backdrop-filter: blur(5px);
-}
-
-.city-info {
-    padding: 15px;
-    margin: 12px 0;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    min-height: 44px;
-}
-
-/* LOADING SPINNER */
-.loading-spinner {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    border-top-color: var(--primary-color);
-    animation: spin 1s ease-in-out infinite;
-    margin-right: 10px;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-/* MODAL */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-    position: relative;
-}
-
-.modal-content button {
-    width: 100%;
-    margin: 8px 0;
-    padding: 14px;
-}
-
-/* MAP */
-#map {
-    height: 500px;
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    display: none;
-    touch-action: none;
-}
-
-.tab-content.active #map {
-    display: block;
-}
-
-/* Marker Styles */
-.map-marker {
-    width: 30px;
-    height: 30px;
+body.dark-theme button {
     background-color: var(--primary-color);
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(-45deg);
-    position: relative;
-}
-
-.map-marker::after {
-    content: '';
-    width: 14px;
-    height: 14px;
-    background: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    transform: rotate(45deg);
-}
-
-/* Theme-specific map styles */
-body.dark-theme .leaflet-container {
-    background: rgba(50,50,50,0.7) !important;
-}
-
-body.pink-theme .leaflet-container {
-    background: rgba(255,240,245,0.7) !important;
-}
-
-.weather-result-box {
-    padding: 15px;
-    border-radius: 10px;
-    background-color: rgba(224, 224, 224, 0.25);
-    margin-top: 10px;
-}
-
-/* WEATHER DISPLAY */
-.weather-display {
-    position: relative;
-    padding: 15px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-}
-
-.city-name.interactive {
-    cursor: pointer;
-    color: var(--primary-color);
-    text-decoration: underline dotted;
-    text-underline-offset: 3px;
-    transition: all 0.2s ease;
-    display: inline-block;
-    margin-bottom: 5px;
-    min-height: 44px;
-}
-
-.forecast-tooltip {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    z-index: 100;
-    width: 100%;
-    max-width: 400px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.5s ease;
-    transform: translateY(10px);
-}
-
-.forecast-tooltip.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.forecast-day {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-}
-
-/* SEARCH INPUT */
-.search-input-container {
-    width: 100%;
-    margin: 10px auto;
-    position: relative;
-}
-
-.search-input-container i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #555;
-    font-size: 18px;
-}
-
-#cityInput {
-    width: 100%;
-    padding: 12px 10px 12px 40px;
-    margin: 0;
-    font-size: 16px;
-}
-
-/* DARK THEME */
-body.dark-theme {
-    background-color: #121212;
-    background-image: var(--dark-theme-bg);
-    color: #e0e0e0;
-}
-
-body.dark-theme::after {
-    background: rgba(0, 0, 0, 0.5);
-}
-
-body.dark-theme button,
-body.dark-theme .tab-button {
-    background-color: #616161;
-    color: #ffffff;
-    border: 1px solid #757575;
-}
-
-body.dark-theme button:hover,
-body.dark-theme .tab-button:hover {
-    background-color: #757575;
-    box-shadow: 0 0 0 3px #9e9e9e;
-}
-
-body.dark-theme .tab-button.active {
-    background-color: #424242;
-}
-
-body.dark-theme .settings-button {
-    background-color: #616161;
-}
-
-body.dark-theme .settings-button:hover {
-    background-color: #757575;
-}
-
-body.dark-theme .install-button {
-    background-color: #616161;
-}
-
-body.dark-theme .install-button:hover {
-    background-color: #757575;
-}
-
-body.dark-theme .modal-content {
-    background-color: #424242;
-    color: #e0e0e0;
-}
-
-body.dark-theme input {
-    background-color: #424242;
-    color: #e0e0e0;
-    border-color: #616161;
-}
-
-body.dark-theme .weather-display {
-    background-color: rgba(66, 66, 66, 0.3);
-}
-
-body.dark-theme .forecast-tooltip {
-    background-color: #424242;
-    border: 1px solid #616161;
-}
-
-body.dark-theme .city-name.interactive {
-    color: #9e9e9e;
-}
-
-body.dark-theme .city-name.interactive:hover {
-    color: #bdbdbd;
-}
-
-body.dark-theme .forecast-day {
-    border-bottom: 1px solid #444;
-}
-
-body.dark-theme .loading-spinner {
-    border-top-color: #9e9e9e;
-}
-
-/* PINK THEME */
-body.pink-theme {
-    background-image: var(--pink-theme-bg);
+    color: white;
+    border-color: #555;
 }
 
 body.pink-theme button {
@@ -514,174 +466,118 @@ body.pink-theme button:hover {
     box-shadow: 0 0 0 3px var(--secondary-hover);
 }
 
-body.pink-theme .tab-button.active {
-    background-color: var(--secondary-hover);
+#weatherResult {
+    margin-top: 20px;
+    font-size: 1.2em;
+    text-align: left;
 }
-
-body.pink-theme .settings-button {
-    background-color: var(--secondary-color);
-}
-
-body.pink-theme .install-button {
-    background-color: var(--secondary-hover);
-}
-
-body.pink-theme .modal-content {
-    background-color: #fff0f5;
-    color: #5a3e4b;
-}
-
-body.pink-theme .city-name.interactive {
-    color: var(--secondary-hover);
-}
-
-body.pink-theme .city-name.interactive:hover {
-    color: #e91e63;
-}
-
-body.pink-theme .forecast-day {
-    border-bottom: 1px solid #ffb6c1;
-}
-
-body.pink-theme .loading-spinner {
-    border-top-color: var(--secondary-hover);
-}
-
-/* RESPONSIVE DESIGN */
-@media (max-width: 768px) {
-    .weather-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .container {
-        padding-top: 70px;
-    }
-    
-    #map {
-        height: 350px;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 60px 10px 10px;
-    }
-
-    .tab-button {
-        padding: 10px 12px;
-        font-size: 13px;
-    }
-
-    .settings-button {
-        width: 42px;
-        height: 42px;
-        font-size: 17px;
-    }
-
-    .install-button {
-        padding: 10px 14px;
-        font-size: 13px;
-    }
-
-    #map {
-        height: 300px;
-    }
-}
-
-
 
 /* ==================== */
 /* CONTINENT CONTAINERS */
 /* ==================== */
 .weather-grid {
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 20px;
-    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 15px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .continent-box {
-    padding: 25px;
-    border-radius: 18px;
-    font-size: 0.95em;
-    text-align: left;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-    border: 1px solid rgba(255,255,255,0.4);
-    backdrop-filter: blur(8px);
     width: 100%;
-    max-width: 320px;
-    min-height: 220px;
-    display: flex;
-    flex-direction: column;
+    min-height: 200px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
 }
 
+.continent-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Adjust for medium screens */
+@media (max-width: 900px) {
+    .weather-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .weather-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+    }
+    .continent-box {
+        min-width: auto;
+        max-width: 100%;
+    }
+}
 .continent-box h3 {
-    margin: 0 0 20px 0;
-    font-size: 1.6em;
+    margin: 0 0 15px 0;
+    font-size: 1.5em;
     position: relative;
     z-index: 2;
-    padding-bottom: 12px;
-    border-bottom: 2px solid rgba(255,255,255,0.4);
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
     display: flex;
     align-items: center;
 }
 
 .city-info {
-    padding: 18px;
-    margin: 12px 0;
-    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
     transition: all 0.3s ease;
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 /* LIGHT THEME CONTINENTS */
 body #eu {
-    background: linear-gradient(135deg, rgba(104, 159, 56, 0.85), rgba(124, 179, 66, 0.85));
+    background: linear-gradient(135deg, rgba(104, 159, 56, 0.9), rgba(124, 179, 66, 0.9));
     color: #2E3A1D;
 }
-
 body #as {
-    background: linear-gradient(135deg, rgba(129, 199, 132, 0.85), rgba(76, 175, 80, 0.85));
+    background: linear-gradient(135deg, rgba(129, 199, 132, 0.9), rgba(76, 175, 80, 0.9));
     color: #1B5E20;
 }
-
 body #na {
-    background: linear-gradient(135deg, rgba(251, 192, 45, 0.85), rgba(249, 168, 37, 0.85));
+    background: linear-gradient(135deg, rgba(251, 192, 45, 0.9), rgba(249, 168, 37, 0.9));
     color: #5D4037;
 }
-
 body #af {
-    background: linear-gradient(135deg, rgba(239, 154, 154, 0.85), rgba(244, 67, 54, 0.85));
+    background: linear-gradient(135deg, rgba(239, 154, 154, 0.9), rgba(244, 67, 54, 0.9));
     color: #B71C1C;
 }
-
 body #oc {
-    background: linear-gradient(135deg, rgba(248, 187, 208, 0.85), rgba(233, 30, 99, 0.85));
+    background: linear-gradient(135deg, rgba(248, 187, 208, 0.9), rgba(233, 30, 99, 0.9));
     color: #880E4F;
 }
-
 body #sa {
-    background: linear-gradient(135deg, rgba(255, 213, 79, 0.85), rgba(255, 167, 38, 0.85));
+    background: linear-gradient(135deg, rgba(255, 213, 79, 0.9), rgba(255, 167, 38, 0.9));
     color: #E65100;
 }
 
 body .city-info {
-    background-color: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255,255,255,0.6);
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255,255,255,0.5);
 }
-
 body .city-info:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-    background-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* DARK THEME CONTINENTS */
@@ -689,93 +585,81 @@ body.dark-theme #eu {
     background: linear-gradient(135deg, rgba(124, 179, 66, 0.9), rgba(104, 159, 56, 0.9));
     color: #E3F2FD;
 }
-
 body.dark-theme #as {
     background: linear-gradient(135deg, rgba(56, 142, 60, 0.9), rgba(27, 94, 32, 0.9));
     color: #E8F5E9;
 }
-
 body.dark-theme #na {
     background: linear-gradient(135deg, rgba(255, 213, 79, 0.9), rgba(255, 167, 38, 0.9));
     color: #FFF3E0;
 }
-
 body.dark-theme #af {
     background: linear-gradient(135deg, rgba(229, 115, 115, 0.9), rgba(198, 40, 40, 0.9));
     color: #FFEBEE;
 }
-
 body.dark-theme #oc {
     background: linear-gradient(135deg, rgba(240, 98, 146, 0.9), rgba(194, 24, 91, 0.9));
     color: #FCE4EC;
 }
-
 body.dark-theme #sa {
     background: linear-gradient(135deg, rgba(255, 183, 77, 0.9), rgba(239, 108, 0, 0.9));
     color: #FFF3E0;
 }
 
 body.dark-theme .city-info {
-    background-color: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255,255,255,0.15);
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255,255,255,0.1);
 }
-
 body.dark-theme .city-info:hover {
-    background-color: rgba(0, 0, 0, 0.45);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 /* PINK THEME CONTINENTS */
 body.pink-theme #eu {
-    background: linear-gradient(135deg, rgba(192, 202, 51, 0.85), rgba(175, 180, 43, 0.85));
+    background: linear-gradient(135deg, rgba(192, 202, 51, 0.9), rgba(175, 180, 43, 0.9));
     color: #01579B;
 }
-
 body.pink-theme #as {
-    background: linear-gradient(135deg, rgba(200, 230, 201, 0.85), rgba(165, 214, 167, 0.85));
+    background: linear-gradient(135deg, rgba(200, 230, 201, 0.9), rgba(165, 214, 167, 0.9));
     color: #1B5E20;
 }
-
 body.pink-theme #na {
-    background: linear-gradient(135deg, rgba(255, 213, 79, 0.85), rgba(255, 202, 40, 0.85));
+    background: linear-gradient(135deg, rgba(255, 213, 79, 0.9), rgba(255, 202, 40, 0.9));
     color: #5D4037;
 }
-
 body.pink-theme #af {
-    background: linear-gradient(135deg, rgba(255, 205, 210, 0.85), rgba(239, 154, 154, 0.85));
+    background: linear-gradient(135deg, rgba(255, 205, 210, 0.9), rgba(239, 154, 154, 0.9));
     color: #B71C1C;
 }
-
 body.pink-theme #oc {
-    background: linear-gradient(135deg, rgba(248, 187, 208, 0.85), rgba(244, 143, 177, 0.85));
+    background: linear-gradient(135deg, rgba(248, 187, 208, 0.9), rgba(244, 143, 177, 0.9));
     color: #880E4F;
 }
-
 body.pink-theme #sa {
-    background: linear-gradient(135deg, rgba(255, 224, 178, 0.85), rgba(255, 204, 128, 0.85));
+    background: linear-gradient(135deg, rgba(255, 224, 178, 0.9), rgba(255, 204, 128, 0.9));
     color: #E65100;
 }
 
 body.pink-theme .city-info {
-    background-color: rgba(255, 255, 255, 0.65);
-    border: 1px solid rgba(255,255,255,0.75);
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255,255,255,0.7);
 }
-
 body.pink-theme .city-info:hover {
-    background-color: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 8px 20px rgba(255,105,180,0.25);
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 12px rgba(255,105,180,0.2);
 }
 
 /* CONTINENT ICONS */
 .continent-box h3::before {
     content: '';
     display: inline-block;
-    width: 36px;
-    height: 36px;
-    margin-right: 15px;
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
     background-size: contain;
     background-repeat: no-repeat;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
 }
 
 /* Europe - Building icon */
@@ -810,23 +694,402 @@ body #sa h3::before {
 
 /* Theme-specific icon adjustments */
 body.dark-theme .continent-box h3::before {
-    filter: brightness(0) invert(1) drop-shadow(0 2px 2px rgba(0,0,0,0.4));
+    filter: brightness(0) invert(1) drop-shadow(0 1px 1px rgba(0,0,0,0.3));
 }
 
 body.pink-theme .continent-box h3::before {
-    filter: hue-rotate(-10deg) brightness(1.1) drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+    filter: hue-rotate(-10deg) brightness(1.1) drop-shadow(0 1px 1px rgba(0,0,0,0.2));
 }
 
-/* Responsive adjustments */
+/* ==================== */
+/* LOADING SPINNER */
+/* ==================== */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+}
+
+body.dark-theme .loading-spinner {
+    border-top-color: var(--secondary-color);
+}
+
+body.pink-theme .loading-spinner {
+    border-top-color: var(--secondary-hover);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ==================== */
+/* MODAL */
+/* ==================== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    color: rgb(128, 128, 128);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+body.dark-theme .modal-content {
+    background-color: #333;
+    color: white;
+}
+
+body.pink-theme .modal-content {
+    background-color: #fff0f5;
+    color: #5a3e4b;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* ==================== */
+/* MAP */
+/* ==================== */
+#map {
+    height: 500px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.tab-content.active #map {
+    display: block;
+}
+
+body.pink-theme #map {
+    filter: hue-rotate(-10deg) brightness(1.05);
+}
+
+.weather-result-box {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: rgba(224, 224, 224, 0.25);
+    margin-top: 10px;
+}
+
+body.dark-theme .weather-result-box {
+    background-color: rgba(66, 66, 66, 0.25);
+}
+
+/* ==================== */
+/* WEATHER DISPLAY */
+/* ==================== */
+.weather-display {
+    position: relative;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+body.dark-theme .weather-display {
+    background-color: rgba(66, 66, 66, 0.1);
+}
+
+.city-name.interactive {
+    cursor: pointer;
+    color: var(--primary-color);
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+    transition: all 0.2s ease;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.city-name.interactive:hover {
+    color: var(--primary-hover);
+}
+
+body.pink-theme .city-name.interactive {
+    color: var(--secondary-hover);
+}
+
+body.pink-theme .city-name.interactive:hover {
+    color: #e91e63;
+}
+
+.forecast-expandable {
+    position: relative;
+}
+
+.forecast-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 100;
+    width: 100%;
+    max-width: 400px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    transform: translateY(10px);
+}
+
+body.dark-theme .forecast-tooltip {
+    background-color: #333;
+    color: white;
+}
+
+body.pink-theme .forecast-tooltip {
+    background-color: #fff0f5;
+    color: #5a3e4b;
+}
+
+.forecast-tooltip.visible,
+.weather-display:hover .forecast-tooltip:not(.visible) {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.forecast-day {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+body.dark-theme .forecast-day {
+    border-bottom: 1px solid #444;
+}
+
+body.pink-theme .forecast-day {
+    border-bottom: 1px solid #ffb6c1;
+}
+
+.forecast-date {
+    font-weight: bold;
+    width: 100px;
+}
+
+.forecast-desc {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.forecast-temp {
+    width: 70px;
+    text-align: right;
+    color: var(--primary-color);
+}
+
+body.dark-theme .forecast-temp {
+    color: var(--secondary-color);
+}
+
+body.pink-theme .forecast-temp {
+    color: var(--secondary-hover);
+}
+
+
+.search-input-container {
+    width: 100%;
+    margin: 5px auto;
+    position: relative;
+    left: -5px;
+}
+
+.search-input-container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+}
+
+#cityInput {
+    width: 100%;
+    padding: 10px 10px 10px 35px;
+    margin: 0; 
+}
+
+
+
+
 @media (max-width: 768px) {
     .weather-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
+        grid-template-columns: 1fr;
     }
     
     .continent-box {
-        padding: 20px;
-        min-height: 200px;
+        padding: 15px;
+    }
+    
+    .city-info {
+        padding: 10px;
+    }
+    
+    .tabs {
+        top: 10px;
+        left: 10px;
+    }
+    
+    .settings-button, .install-button {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .container {
+        padding-top: 70px;
+    }
+    
+    #map {
+        height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 50px 10px 10px;
+        width: 95%;
+    }
+
+    .tabs {
+        top: 10px;
+        left: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        padding: 6px 10px;
+        font-size: 12px;
+        margin: 2px;
+    }
+
+    .settings-button {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .install-button {
+        padding: 8px 12px;
+        font-size: 14px;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .weather-search {
+        padding: 15px;
+    }
+    
+    input, button {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .weather-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .continent-box {
+        padding: 15px;
+    }
+    
+    .continent-box h3 {
+        font-size: 1.2em;
+    }
+
+    #map {
+        height: 300px;
+    }
+
+    .weather-display {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 280px;
+    }
+}
+
+@media (max-width: 360px) {
+    .tab-button {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+    
+    .weather-search h2 {
+        font-size: 1.1em;
+    }
+    
+    .continent-box h3::before {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+    
+    .install-button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    .container {
+        padding-top: 40px;
+    }
+    
+    #map {
+        height: 200px;
+    }
+    
+    .weather-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .install-button {
+        top: 10px;
+        bottom: auto;
+    }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    .weather-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
 
@@ -835,14 +1098,21 @@ body.pink-theme .continent-box h3::before {
         grid-template-columns: 1fr;
         gap: 15px;
     }
+
+    .continent-box {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .weather-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
     
     .continent-box {
         max-width: 100%;
-    }
-    
-    .continent-box h3::before {
-        width: 30px;
-        height: 30px;
-        margin-right: 10px;
     }
 }

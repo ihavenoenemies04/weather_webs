@@ -13,11 +13,15 @@ let pinkThemeBtn = document.getElementById("pinkThemeBtn");
 let homeTab = document.getElementById("homeTab");
 let continentsTab = document.getElementById("continentsTab");
 let mapTab = document.getElementById("mapTab");
+let favoritesTab = document.getElementById("favoritesTab");
 let homeContent = document.getElementById("homeContent");
 let continentsContent = document.getElementById("continentsContent");
 let mapContent = document.getElementById("mapContent");
+let favoritesContent = document.getElementById("favoritesContent");
 let mapWeatherResult = document.getElementById("mapWeatherResult");
 let installBtn = document.getElementById("installBtn");
+let favoritesContainer = document.getElementById("favoritesContainer");
+let addCurrentToFavorites = document.getElementById("addCurrentToFavorites");
 let deferredPrompt;
 let map;
 let marker;
@@ -70,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: false });
     
     // Touch feedback for buttons
-    const buttons = document.querySelectorAll('button, .tab-button, .city-name.interactive');
+    const buttons = document.querySelectorAll('button, .tab-button');
     buttons.forEach(button => {
         button.addEventListener('touchstart', function() {
             this.classList.add('active-touch');
@@ -79,19 +83,17 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('touchend', function() {
             this.classList.remove('active-touch');
         }, { passive: true });
-        
-        button.addEventListener('touchcancel', function() {
-            this.classList.remove('active-touch');
-        }, { passive: true });
     });
     
-    // Improved click handling for touch devices
-    document.addEventListener('click', function(e) {
-        if (e.target.matches('button, .tab-button, .city-name.interactive')) {
-            e.preventDefault();
-            e.target.click();
-        }
-    }, { passive: false });
+    // Prevent scrolling when interacting with elements
+    const interactiveElements = document.querySelectorAll('input, button, .tab-button, .city-name');
+    interactiveElements.forEach(el => {
+        el.addEventListener('touchstart', function(e) {
+            if (e.target === this) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    });
 });
 
 // Check if running as PWA
@@ -142,22 +144,18 @@ mapTab.addEventListener("click", () => {
     initMap();
 });
 
+favoritesTab.addEventListener("click", () => {
+    switchTab(favoritesTab, favoritesContent);
+    loadFavorites();
+});
+
 function switchTab(activeTab, activeContent) {
-    [homeTab, continentsTab, mapTab].forEach(tab => {
-        tab.classList.remove("active");
-        tab.style.pointerEvents = "none";
-    });
-    [homeContent, continentsContent, mapContent].forEach(content => content.classList.remove("active"));
+    [homeTab, continentsTab, mapTab, favoritesTab].forEach(tab => tab.classList.remove("active"));
+    [homeContent, continentsContent, mapContent, favoritesContent].forEach(content => content.classList.remove("active"));
     
-    setTimeout(() => {
-        activeTab.classList.add("active");
-        activeContent.classList.add("active");
-        cleanupMap();
-        
-        [homeTab, continentsTab, mapTab].forEach(tab => {
-            tab.style.pointerEvents = "auto";
-        });
-    }, 50);
+    activeTab.classList.add("active");
+    activeContent.classList.add("active");
+    cleanupMap();
 }
 
 // Settings modal
@@ -186,9 +184,6 @@ darkThemeBtn.addEventListener("click", () => {
     document.body.className = "dark-theme";
     document.body.style.backgroundImage = "var(--dark-theme-bg)";
     settingsModal.style.display = "none";
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundAttachment = "fixed";
 });
 
 pinkThemeBtn.addEventListener("click", () => {
@@ -199,23 +194,11 @@ pinkThemeBtn.addEventListener("click", () => {
 
 // Map functions
 function initMap() {
-    if (!map && mapContent.classList.contains("active")) {
-        map = L.map('map', {
-            tap: false,
-            dragging: !L.Browser.mobile
-        }).setView([50.45, 30.52], 3);
-
+    if (!map) {
+        map = L.map('map').setView([50.45, 30.52], 3);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            tap: false
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-
-        // Touch device adjustments
-        if (L.Browser.mobile) {
-            map.touchZoom.disable();
-            map.doubleClickZoom.disable();
-            map.dragging.disable();
-        }
 
         map.on('click', function(e) {
             if (marker) {
@@ -224,31 +207,128 @@ function initMap() {
             marker = L.marker(e.latlng, {
                 icon: L.divIcon({
                     className: 'custom-marker-icon',
-                    iconSize: [30, 30],
-                    html: '<div class="map-marker"></div>'
+                    iconSize: [20, 20]
                 })
             }).addTo(map);
             getWeatherByCoords(e.latlng.lat, e.latlng.lng, mapWeatherResult);
         });
-
-        setTimeout(() => {
-            map.invalidateSize(true);
-        }, 300);
     }
 }
 
 function cleanupMap() {
     if (map) {
-        map.off();
         map.remove();
         map = null;
     }
     if (marker) {
-        marker.remove();
         marker = null;
     }
     mapWeatherResult.innerHTML = '';
 }
+
+// Favorites functions
+function saveFavorites(favorites) {
+    localStorage.setItem('weatherFavorites', JSON.stringify(favorites));
+}
+
+function getFavorites() {
+    return JSON.parse(localStorage.getItem('weatherFavorites')) || [];
+}
+
+async function loadFavorites() {
+    const favorites = getFavorites();
+    favoritesContainer.innerHTML = '';
+    
+    if (favorites.length === 0) {
+        favoritesContainer.innerHTML = '<p class="no-favorites">Немає збережених місць</p>';
+        return;
+    }
+    
+    for (const favorite of favorites) {
+        const favoriteElement = document.createElement('div');
+        favoriteElement.className = 'favorite-item';
+        favoriteElement.innerHTML = `
+            <div class="favorite-info">
+                <h3>${favorite.name}</h3>
+                <button class="remove-favorite" data-id="${favorite.id}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div class="favorite-weather" id="favorite-${favorite.id}">
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Завантаження даних...</p>
+                </div>
+            </div>
+        `;
+        favoritesContainer.appendChild(favoriteElement);
+        
+        // Load weather for this favorite
+        if (favorite.coords) {
+            getWeatherByCoords(favorite.coords.lat, favorite.coords.lon, document.getElementById(`favorite-${favorite.id}`));
+        } else {
+            getWeather(favorite.name, document.getElementById(`favorite-${favorite.id}`));
+        }
+        
+        // Add event listener for remove button
+        favoriteElement.querySelector('.remove-favorite').addEventListener('click', () => {
+            removeFavorite(favorite.id);
+        });
+    }
+}
+
+function addFavorite(name, coords = null) {
+    const favorites = getFavorites();
+    const id = Date.now().toString();
+    
+    favorites.push({
+        id,
+        name,
+        coords
+    });
+    
+    saveFavorites(favorites);
+    loadFavorites();
+}
+
+function removeFavorite(id) {
+    let favorites = getFavorites();
+    favorites = favorites.filter(fav => fav.id !== id);
+    saveFavorites(favorites);
+    loadFavorites();
+}
+
+// Add current location to favorites
+addCurrentToFavorites.addEventListener('click', () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                
+                // Reverse geocoding to get city name
+                fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            const cityName = data[0].name;
+                            addFavorite(cityName, { lat: latitude, lon: longitude });
+                        } else {
+                            addFavorite(`Location (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`, { lat: latitude, lon: longitude });
+                        }
+                    })
+                    .catch(() => {
+                        addFavorite(`Location (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`, { lat: latitude, lon: longitude });
+                    });
+            },
+            (error) => {
+                alert("Не вдалося отримати ваше місцезнаходження");
+            }
+        );
+    } else {
+        alert("Геолокація не підтримується вашим браузером");
+    }
+});
 
 // Weather functions
 async function getWeatherByCoords(lat, lon, targetElement = weatherResult) {
@@ -416,8 +496,8 @@ getWeatherBtn.addEventListener("click", () => {
     }
 });
 
-async function getWeather(city) {
-    weatherResult.innerHTML = `
+async function getWeather(city, targetElement = weatherResult) {
+    targetElement.innerHTML = `
         <div class="loading-container">
             <div class="loading-spinner"></div>
             <p>Завантаження даних...</p>
@@ -452,20 +532,22 @@ async function getWeather(city) {
                     </div>
                 </div>
             `;
-            weatherResult.innerHTML = weatherHTML;
+            targetElement.innerHTML = weatherHTML;
             
-            const cityNameElement = weatherResult.querySelector('.city-name.interactive');
-            cityNameElement.addEventListener('click', function() {
-                const tooltip = this.closest('.weather-display').querySelector('.forecast-tooltip');
-                tooltip.classList.toggle('visible');
-            });
+            const cityNameElement = targetElement.querySelector('.city-name.interactive');
+            if (cityNameElement) {
+                cityNameElement.addEventListener('click', function() {
+                    const tooltip = this.closest('.weather-display').querySelector('.forecast-tooltip');
+                    tooltip.classList.toggle('visible');
+                });
+            }
         } else {
-            weatherResult.innerHTML = '';
+            targetElement.innerHTML = '';
             alert(`Помилка: ${currentData.message || "Місто не знайдено"}`);
         }
     } catch (error) {
         console.error("Помилка:", error);
-        weatherResult.innerHTML = '';
+        targetElement.innerHTML = '';
         alert("Помилка отримання даних. Будь ласка, спробуйте ще раз.");
     }
 }
@@ -511,4 +593,5 @@ async function loadContinentWeather() {
 // Initial load
 document.addEventListener("DOMContentLoaded", () => {
     loadContinentWeather();
+    loadFavorites();
 });
