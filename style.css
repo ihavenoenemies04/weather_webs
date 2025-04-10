@@ -8,6 +8,11 @@
     --primary-color: #689f38;
     --primary-hover: #558b2f;
     --primary-light: #dcedc8;
+    --dark-theme-btn: #616161;
+    --dark-theme-btn-hover: #757575;
+    --dark-theme-btn-active: #424242;
+    --dark-theme-bg: url('dark_bg.jpg'), linear-gradient(to bottom, #121212, #000000);
+    --dark-overlay: rgba(0, 0, 0, 0.7);
     --secondary-color: #fbc02d;
     --secondary-hover: #f9a825;
     --secondary-light: #fff9c4;
@@ -53,6 +58,14 @@ body::after {
     z-index: -1;
     pointer-events: none;
 }
+body.dark-theme {
+    background-image: var(--dark-theme-bg);
+    color: #e0e0e0;
+}
+
+body.dark-theme::after {
+    background: var(--dark-overlay);
+}
 
 /* ==================== */
 /* INSTALL BUTTON */
@@ -94,6 +107,70 @@ body.pink-theme .install-button {
     color: #5a3e4b;
 }
 
+/* ==================== */
+/* DARK THEME BUTTONS */
+/* ==================== */
+body.dark-theme button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+    border-color: var(--dark-theme-btn-hover) !important;
+}
+
+body.dark-theme button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+    box-shadow: 0 0 0 3px var(--dark-theme-btn-active) !important;
+}
+
+body.dark-theme .tab-button {
+    background-color: rgba(97, 97, 97, 0.8) !important;
+    color: white !important;
+}
+
+body.dark-theme .tab-button.active {
+    background-color: var(--dark-theme-btn) !important;
+}
+
+body.dark-theme .tab-button:hover {
+    box-shadow: 0 0 0 3px var(--dark-theme-btn-hover) !important;
+}
+
+body.dark-theme .settings-button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+}
+
+body.dark-theme .settings-button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+}
+
+body.dark-theme .install-button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+}
+
+body.dark-theme .install-button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+}
+
+/* Weather search buttons in dark theme */
+body.dark-theme .weather-search button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+}
+
+body.dark-theme .weather-search button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+}
+
+/* Modal buttons in dark theme */
+body.dark-theme .modal-content button {
+    background-color: var(--dark-theme-btn) !important;
+    color: white !important;
+}
+
+body.dark-theme .modal-content button:hover {
+    background-color: var(--dark-theme-btn-hover) !important;
+}
 /* ==================== */
 /* TOUCH FEEDBACK */
 /* ==================== */
@@ -308,26 +385,57 @@ body.pink-theme button:hover {
 /* CONTINENT CONTAINERS */
 /* ==================== */
 .weather-grid {
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 15px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .continent-box {
+    width: 100%;
+    min-height: 200px;
     padding: 20px;
     border-radius: 15px;
-    font-size: 0.95em;
-    text-align: left;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
 }
 
+.continent-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Adjust for medium screens */
+@media (max-width: 900px) {
+    .weather-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .weather-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+    }
+    .continent-box {
+        min-width: auto;
+        max-width: 100%;
+    }
+}
 .continent-box h3 {
     margin: 0 0 15px 0;
     font-size: 1.5em;
@@ -885,5 +993,35 @@ body.pink-theme .forecast-temp {
     .install-button {
         top: 10px;
         bottom: auto;
+    }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    .weather-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .continent-box {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .weather-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    
+    .continent-box {
+        max-width: 100%;
     }
 }
