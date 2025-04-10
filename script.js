@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: false });
     
     // Touch feedback for buttons
-    const buttons = document.querySelectorAll('button, .tab-button');
+    const buttons = document.querySelectorAll('button, .tab-button, .city-name.interactive');
     buttons.forEach(button => {
         button.addEventListener('touchstart', function() {
             this.classList.add('active-touch');
@@ -79,17 +79,19 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('touchend', function() {
             this.classList.remove('active-touch');
         }, { passive: true });
+        
+        button.addEventListener('touchcancel', function() {
+            this.classList.remove('active-touch');
+        }, { passive: true });
     });
     
-    // Prevent scrolling when interacting with elements
-    const interactiveElements = document.querySelectorAll('input, button, .tab-button, .city-name');
-    interactiveElements.forEach(el => {
-        el.addEventListener('touchstart', function(e) {
-            if (e.target === this) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-    });
+    // Improved click handling for touch devices
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('button, .tab-button, .city-name.interactive')) {
+            e.preventDefault();
+            e.target.click();
+        }
+    }, { passive: false });
 });
 
 // Check if running as PWA
@@ -141,12 +143,21 @@ mapTab.addEventListener("click", () => {
 });
 
 function switchTab(activeTab, activeContent) {
-    [homeTab, continentsTab, mapTab].forEach(tab => tab.classList.remove("active"));
+    [homeTab, continentsTab, mapTab].forEach(tab => {
+        tab.classList.remove("active");
+        tab.style.pointerEvents = "none";
+    });
     [homeContent, continentsContent, mapContent].forEach(content => content.classList.remove("active"));
     
-    activeTab.classList.add("active");
-    activeContent.classList.add("active");
-    cleanupMap();
+    setTimeout(() => {
+        activeTab.classList.add("active");
+        activeContent.classList.add("active");
+        cleanupMap();
+        
+        [homeTab, continentsTab, mapTab].forEach(tab => {
+            tab.style.pointerEvents = "auto";
+        });
+    }, 50);
 }
 
 // Settings modal
@@ -175,6 +186,9 @@ darkThemeBtn.addEventListener("click", () => {
     document.body.className = "dark-theme";
     document.body.style.backgroundImage = "var(--dark-theme-bg)";
     settingsModal.style.display = "none";
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center";
+    document.body.style.backgroundAttachment = "fixed";
 });
 
 pinkThemeBtn.addEventListener("click", () => {
@@ -185,11 +199,23 @@ pinkThemeBtn.addEventListener("click", () => {
 
 // Map functions
 function initMap() {
-    if (!map) {
-        map = L.map('map').setView([50.45, 30.52], 3);
+    if (!map && mapContent.classList.contains("active")) {
+        map = L.map('map', {
+            tap: false,
+            dragging: !L.Browser.mobile
+        }).setView([50.45, 30.52], 3);
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            tap: false
         }).addTo(map);
+
+        // Touch device adjustments
+        if (L.Browser.mobile) {
+            map.touchZoom.disable();
+            map.doubleClickZoom.disable();
+            map.dragging.disable();
+        }
 
         map.on('click', function(e) {
             if (marker) {
@@ -198,20 +224,27 @@ function initMap() {
             marker = L.marker(e.latlng, {
                 icon: L.divIcon({
                     className: 'custom-marker-icon',
-                    iconSize: [20, 20]
+                    iconSize: [30, 30],
+                    html: '<div class="map-marker"></div>'
                 })
             }).addTo(map);
             getWeatherByCoords(e.latlng.lat, e.latlng.lng, mapWeatherResult);
         });
+
+        setTimeout(() => {
+            map.invalidateSize(true);
+        }, 300);
     }
 }
 
 function cleanupMap() {
     if (map) {
+        map.off();
         map.remove();
         map = null;
     }
     if (marker) {
+        marker.remove();
         marker = null;
     }
     mapWeatherResult.innerHTML = '';

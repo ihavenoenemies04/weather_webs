@@ -1,4 +1,4 @@
-const CACHE_NAME = 'weather-app-v2';
+const CACHE_NAME = 'weather-app-v3';
 const ASSETS = [
   '/',
   '/index.html',
@@ -7,7 +7,10 @@ const ASSETS = [
   '/manifest.json',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+  '/light_bg.jpg',
+  '/dark_bg.jpg',
+  '/pink_bg.jpg'
 ];
 
 self.addEventListener('install', (e) => {

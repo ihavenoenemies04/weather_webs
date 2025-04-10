@@ -16,22 +16,22 @@
 </head>
 <body>
     <div class="tabs">
-        <button class="tab-button active" id="homeTab">
+        <button class="tab-button active touch-friendly" id="homeTab">
             <i class="fas fa-home"></i> Головна
         </button>
-        <button class="tab-button" id="continentsTab">
+        <button class="tab-button touch-friendly" id="continentsTab">
             <i class="fas fa-globe"></i> Континенти
         </button>
-        <button class="tab-button" id="mapTab">
+        <button class="tab-button touch-friendly" id="mapTab">
             <i class="fas fa-map"></i> Мапа
         </button>
     </div>
     
-    <button id="openSettingsBtn" class="settings-button">
+    <button id="openSettingsBtn" class="settings-button touch-friendly">
         <i class="fas fa-cog"></i>
     </button>
     
-    <button id="installBtn" class="install-button" style="display: none;">
+    <button id="installBtn" class="install-button touch-friendly" style="display: none;">
         <i class="fas fa-download"></i> Встановити додаток
     </button>
     
@@ -43,10 +43,10 @@
                     <i class="fas fa-search"></i>
                     <input type="text" id="cityInput" placeholder="Введіть місто">
                 </div>
-                <button id="getWeatherBtn">
+                <button id="getWeatherBtn" class="touch-friendly">
                     <i class="fas fa-cloud-sun-rain"></i> Дізнатися погоду
                 </button>
-                <button id="getLocationBtn">
+                <button id="getLocationBtn" class="touch-friendly">
                     <i class="fas fa-location-dot"></i> Моя геолокація
                 </button>
                 <div id="weatherResult"></div>
@@ -96,18 +96,29 @@
         <div class="modal-content">
             <span class="close" id="closeSettingsBtn">&times;</span>
             <h2><i class="fas fa-sliders"></i> Налаштування</h2>
-            <button id="lightThemeBtn">
+            <button id="lightThemeBtn" class="touch-friendly">
                 <i class="fas fa-sun"></i> Світла тема
             </button>
-            <button id="darkThemeBtn">
+            <button id="darkThemeBtn" class="touch-friendly">
                 <i class="fas fa-moon"></i> Темна тема
             </button>
-            <button id="pinkThemeBtn">
+            <button id="pinkThemeBtn" class="touch-friendly">
                 <i class="fas fa-heart"></i> Рожева тема
             </button>
         </div>
     </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // For touch devices
+    L.Map.addInitHook(function() {
+        if (L.Browser.touch && !L.Browser.pointer) {
+            this.tap.disable();
+        }
+    });
+</script>
+<script src="script.js"></script>
 </body>
 </html>
